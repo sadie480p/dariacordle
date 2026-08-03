@@ -16,6 +16,7 @@ interface Props {
   setSelectedSong: React.Dispatch<React.SetStateAction<Song | undefined>>;
   skip: () => void;
   guess: () => void;
+  resetGame: () => void;
 }
 
 export function Game({
@@ -26,6 +27,7 @@ export function Game({
   setSelectedSong,
   skip,
   guess,
+  resetGame,
 }: Props) {
   if (didGuess || currentTry === 6) {
     return (
@@ -34,6 +36,7 @@ export function Game({
         currentTry={currentTry}
         todaysSolution={todaysSolution}
         guesses={guesses}
+        resetGame={resetGame}
       />
     );
   }

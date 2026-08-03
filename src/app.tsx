@@ -1,12 +1,12 @@
 import { event } from "react-ga";
 
 import React from "react";
-import _ from "lodash";
 
 import { Song } from "./types/song";
 import { GuessType } from "./types/guess";
 
 import { todaysSolution } from "./helpers";
+import { songs } from "./constants";
 
 import { Header, InfoPopUp, Game, Footer } from "./components";
 
@@ -25,51 +25,9 @@ function App() {
   const [currentTry, setCurrentTry] = React.useState<number>(0);
   const [selectedSong, setSelectedSong] = React.useState<Song>();
   const [didGuess, setDidGuess] = React.useState<boolean>(false);
+  const [solution, setSolution] = React.useState<Song>(todaysSolution);
 
   const firstRun = localStorage.getItem("firstRun") === null;
-  let stats = JSON.parse(localStorage.getItem("stats") || "{}");
-
-  React.useEffect(() => {
-    if (Array.isArray(stats)) {
-      const visitedToday = _.isEqual(
-        todaysSolution,
-        stats[stats.length - 1].solution
-      );
-
-      if (!visitedToday) {
-        stats.push({
-          solution: todaysSolution,
-          currentTry: 0,
-          didGuess: 0,
-        });
-      } else {
-        const { currentTry, guesses, didGuess } = stats[stats.length - 1];
-        setCurrentTry(currentTry);
-        setGuesses(guesses);
-        setDidGuess(didGuess);
-      }
-    } else {
-      // initialize stats
-      // useEffect below does rest
-      stats = [];
-      stats.push({
-        solution: todaysSolution,
-      });
-    }
-  }, []);
-
-  React.useEffect(() => {
-    if (Array.isArray(stats)) {
-      stats[stats.length - 1].currentTry = currentTry;
-      stats[stats.length - 1].didGuess = didGuess;
-      stats[stats.length - 1].guesses = guesses;
-    }
-  }),
-    [guesses, currentTry, didGuess];
-
-  React.useEffect(() => {
-    localStorage.setItem("stats", JSON.stringify(stats));
-  }, [stats]);
 
   const [isInfoPopUpOpen, setIsInfoPopUpOpen] =
     React.useState<boolean>(firstRun);
@@ -107,8 +65,16 @@ function App() {
     });
   }, [currentTry]);
 
+  const resetGame = React.useCallback(() => {
+    setGuesses(Array.from({ length: 5 }).fill(initialGuess) as GuessType[]);
+    setCurrentTry(0);
+    setSelectedSong(undefined);
+    setDidGuess(false);
+    setSolution(songs[Math.floor(Math.random() * songs.length)]);
+  }, [initialGuess]);
+
   const guess = React.useCallback(() => {
-    const isCorrect = selectedSong === todaysSolution;
+    const isCorrect = selectedSong === solution;
 
     if (!selectedSong) {
       alert("Choose a song");
@@ -149,11 +115,12 @@ function App() {
         <Game
           guesses={guesses}
           didGuess={didGuess}
-          todaysSolution={todaysSolution}
+          todaysSolution={solution}
           currentTry={currentTry}
           setSelectedSong={setSelectedSong}
           skip={skip}
           guess={guess}
+          resetGame={resetGame}
         />
       </Styled.Container>
       {/* <Footer /> */}

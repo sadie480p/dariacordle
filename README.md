@@ -1,10 +1,10 @@
 # Heardle Template
 
-Forked from [Shizerq](https://github.com/Shizerq/sluchajfun) 
+Forked from [youtube-heardle-template](https://github.com/sarvarghese/youtube-heardle-template) 
 Clone of famous [Heardle](https://heardle.app) - "that daily music game". <br />
 Uses through the YouTube iFrame API.
 
-4/28/22 - issues with video availability
+8/03/26 - first build
 
 # Building (default React stuff)
 

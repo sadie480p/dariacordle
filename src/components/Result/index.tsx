@@ -14,6 +14,7 @@ interface Props {
   currentTry: number;
   todaysSolution: Song;
   guesses: GuessType[];
+  resetGame: () => void;
 }
 
 export function Result({
@@ -21,15 +22,8 @@ export function Result({
   todaysSolution,
   guesses,
   currentTry,
+  resetGame,
 }: Props) {
-  const hoursToNextDay = Math.floor(
-    (new Date(new Date().setHours(24, 0, 0, 0)).getTime() -
-      new Date().getTime()) /
-      1000 /
-      60 /
-      60
-  );
-
   const textForTry = ["Wow!", "Super!", "Congrats!", "Nice!"];
 
   if (didGuess) {
@@ -41,19 +35,21 @@ export function Result({
       <>
         <Styled.ResultTitle>{textForTry[currentTry - 1]}</Styled.ResultTitle>
         <Styled.SongTitle>
-          Todays song is {todaysSolution.artist} -{" "}
+          The song is {todaysSolution.artist} -{" "}
           {todaysSolution.name}
         </Styled.SongTitle>
         <Styled.Tries>
           You guessed it in {currentTry} {currentTry === 1 ? 'try' : 'tries'}
         </Styled.Tries>
         <YouTube id={todaysSolution.youtubeId} />
-        <Button onClick={copyResult} variant="green">
-          Copy results
-        </Button>
-        <Styled.TimeToNext>
-          Remember to come back in {hoursToNextDay}{" "} hours!
-        </Styled.TimeToNext>
+        <Styled.ActionRow>
+          <Button onClick={copyResult} variant="green">
+            Copy results
+          </Button>
+          <Button onClick={resetGame} variant="green">
+            Play again
+          </Button>
+        </Styled.ActionRow>
       </>
     );
   } else {
@@ -65,8 +61,13 @@ export function Result({
           {todaysSolution.name}
         </Styled.SongTitle>
         <YouTube id={todaysSolution.youtubeId} />
+        <Styled.ActionRow>
+          <Button onClick={resetGame} variant="green">
+            Play again
+          </Button>
+        </Styled.ActionRow>
         <Styled.TimeToNext>
-          Try again in {hoursToNextDay}{" "} hours
+          Start a fresh round.
         </Styled.TimeToNext>
       </>
     );

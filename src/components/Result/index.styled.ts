@@ -30,4 +30,14 @@ export const TimeToNext = styled.h4`
     text-align: center;
     width: 100%;
   }
+
+  margin-top: 12px;
+`;
+
+export const ActionRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
 `;
