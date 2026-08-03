@@ -1,5 +1,3 @@
-# Heardle Template
-
 Forked from [youtube-heardle-template](https://github.com/sarvarghese/youtube-heardle-template) 
 Clone of famous [Heardle](https://heardle.app) - "that daily music game". <br />
 Uses through the YouTube iFrame API.
