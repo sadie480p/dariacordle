@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-# Heardle Template
-
-=======
->>>>>>> 90d8631029b4088eeffcb99f23d76bf69c2122b7
 Forked from [youtube-heardle-template](https://github.com/sarvarghese/youtube-heardle-template) 
 Clone of famous [Heardle](https://heardle.app) - "that daily music game". <br />
 Uses through the YouTube iFrame API.
